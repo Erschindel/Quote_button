@@ -9,7 +9,8 @@ export default class Button extends React.Component{
     this.state = {
       newColor: "",
       colorSubmit: {backgroundColor: "red"},
-      quote: ""
+      quote: "",
+      author: ""
     }
   }
 
@@ -57,7 +58,12 @@ export default class Button extends React.Component{
   getQuote = () => {
     const num = Math.floor(Math.random() * 100);
     axios.get("https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json")
-      .then((res) => this.setState({quote: res.data.quotes[num].quote}))
+      .then((res) => {
+        this.setState({
+          quote: res.data.quotes[num].quote,
+          author: res.data.quotes[num].author
+        });
+      })
   }
 
   componentDidMount(){
@@ -69,6 +75,7 @@ export default class Button extends React.Component{
       <div style={this.state.colorSubmit} className="colorCheck">
         <button style={{border: "2px solid white"}}className="btn btn-lg btn-success buttonCustom" onClick={this.handleClick}>Change</button>
         <blockquote style={{margin: "30px", fontSize: "2em"}}>{this.state.quote}</blockquote>
+        <p style={{fontSize: "1.5em"}}><em>- {this.state.author}</em></p>
       </div>
     )
   }
